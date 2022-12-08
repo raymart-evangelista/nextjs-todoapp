@@ -89,8 +89,6 @@ export default function Todo() {
         return todo
       }
     }))
-    // if all the todos have 'done: true', 'mark all as complete' button should be disabled
-    // if any of the todos have 'done: false', 'mark all as complete' button should be enabled
 
 
   }
@@ -103,8 +101,19 @@ export default function Todo() {
     setTodos(completeAll(todos))
   } 
   useEffect(() => {
+    console.log('inside use effect')
+    // if any of the todos have 'done: false', 'mark all as complete' button should be enabled
+    if (todos.some(todo => todo.done === false)) {
+      console.log('some todos are not finished')
+    }
+    // if all the todos have 'done: true', 'mark all as complete' button should be disabled
+    if (todos.filter(todo => todo.done === true).length === todos.length) {
+      console.log('all todos are done')
+    }
+
+
     buttonEl.current.hidden = buttonHidden
-  }, [buttonHidden])
+  }, [todos, buttonHidden])
 
   return (
     <Layout>
