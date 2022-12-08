@@ -86,6 +86,10 @@ export default function Todo() {
     }))
   }
 
+  function handleCompleteAll(e: any) {
+    e.currentTarget.disabled = true
+    setTodos(completeAll(todos))
+  } 
   useEffect(() => {
   }, [])
 
@@ -106,9 +110,9 @@ export default function Todo() {
             [styles.taskNotDone]: todo.done === false,
           })}>{todo.text}</h1>
           <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
-
         </div>
       ))}
+      <button onClick={(e) => handleCompleteAll(e)}><h1>Mark all as complete</h1></button>
     </Layout>
   )
 }
