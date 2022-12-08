@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Head from "next/head"
 import Layout from "../components/layout"
 import styles from "./todo.module.css"
@@ -33,6 +33,8 @@ export default function Todo() {
     { id: 4, text: 'Buy milk', done: false, place: { custom: 'Supermarket'}},
     { id: 5, text: 'Walk outside', done: true },
   ])
+  const inputEl = useRef()
+  const buttonEl = useRef()
 
   function placeToString(place: Place): string {
     if (place === 'home') {
@@ -71,6 +73,7 @@ export default function Todo() {
       }
 
       setTodos(todos.concat(newTodo))
+      buttonEl.current.hidden = false
 
       event.target.value = ''
     }
@@ -84,10 +87,15 @@ export default function Todo() {
         return todo
       }
     }))
+
+    // if all the todos have 'done: true', 'mark all as complete' button should be disabled
+    // if any of the todos have 'done: false', 'mark all as complete' button should be enabled
+
   }
 
   function handleCompleteAll(e: any) {
-    e.currentTarget.disabled = true
+    inputEl.current.focus()
+    e.currentTarget.hidden = true
     setTodos(completeAll(todos))
   } 
   useEffect(() => {
@@ -101,7 +109,7 @@ export default function Todo() {
       <h1>Return to <Link href="/">Home</Link></h1>
       <Header title='Develop. Preview. Ship.'></Header>
       <h1>Todo App</h1>
-      <input type="text" name="" id="" placeholder="Enter a todo task" onKeyDown={event => handleNewTodo(event)} onChange={event => handleInput(event.target.value)}/>
+      <input ref={inputEl} type="text" placeholder="Enter a todo task" onKeyDown={event => handleNewTodo(event)} onChange={event => handleInput(event.target.value)}/>
       {todos.map((todo) => (
         <div key={todo.id} className={styles.container} onClick={() => handleTaskStatus(todo)}>
           {/* <input type="checkbox" onChange={event => handleTaskStatus(event)}/> */}
@@ -112,7 +120,7 @@ export default function Todo() {
           <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
         </div>
       ))}
-      <button onClick={(e) => handleCompleteAll(e)}><h1>Mark all as complete</h1></button>
+      <button ref={buttonEl} id="mark-all-button" onClick={(e) => handleCompleteAll(e)}><h1>Mark all as complete</h1></button>
     </Layout>
   )
 }
