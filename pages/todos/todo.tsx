@@ -105,14 +105,17 @@ export default function Todo() {
     // if any of the todos have 'done: false', 'mark all as complete' button should be enabled
     if (todos.some(todo => todo.done === false)) {
       console.log('some todos are not finished')
+      setButtonHidden(false)
+      buttonEl.current.hidden = buttonHidden
     }
     // if all the todos have 'done: true', 'mark all as complete' button should be disabled
     if (todos.filter(todo => todo.done === true).length === todos.length) {
       console.log('all todos are done')
+      setButtonHidden(true)
+      buttonEl.current.hidden = buttonHidden
     }
 
 
-    buttonEl.current.hidden = buttonHidden
   }, [todos, buttonHidden])
 
   return (
