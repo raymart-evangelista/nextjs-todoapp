@@ -1,7 +1,9 @@
 .container {
   border: 2px red solid;
+  justify-content: space-between;
   display: flex;
-  gap: .5rem;
+  /* gap: .5rem; */
+  padding: 1rem;
 }
 
 .taskNotDone {
@@ -11,4 +13,8 @@
 .taskDone {
   font-weight: 100;
   text-decoration: line-through;
+}
+
+.place {
+
 }

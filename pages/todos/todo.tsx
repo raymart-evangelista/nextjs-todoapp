@@ -5,16 +5,6 @@ import Layout from "../components/layout"
 import styles from "./todo.module.css"
 import clsx from 'clsx'
 
-// const place = 'home'
-// console.log(placeToString(place))
-
-// const todos = [
-//   { id: 1, text: 'Do laundry', done: false, place: 'home' },
-//   { id: 2, text: 'Email boss', done: false, place: 'work' },
-//   { id: 3, text: 'Go to gym', done: false, place: { custom: 'Gym' }},
-//   { id: 4, text: 'Buy milk', done: false, place: { custom: 'Supermarket'}},
-// ]
-
 function Header({ title }: {title: string}) {
   return <h1>{title ? title : 'Default title'}</h1>
 }
@@ -56,10 +46,8 @@ export default function Todo() {
 
   function toggleTodo(todo: Todo): Todo {
     return {
-      id: todo.id,
-      text: todo.text,
+      ...todo,
       done: !todo.done,
-      // todo.done = !todo.done
     }
   }
   
@@ -76,26 +64,29 @@ export default function Todo() {
 
   function handleNewTodo(event: any) {
     if (event.code === 'Enter') {
-      // setTodos(todos.concat(text))
+      const newTodo = {
+        id: todos.length > 0 ? todos[todos.length -1 ].id + 1 : 1,
+        text: text,
+        done: false,
+      }
+
+      setTodos(todos.concat(newTodo))
+
       event.target.value = ''
     }
   }
 
-  function handleTaskStatus(event: any) {
-    if (event.target.checked) {
-      // strikethrough text
-      console.log('im checked')
-      console.log(event)
-    }
+  function handleTaskStatus(clickedTodo: Todo) {
+    setTodos(todos.map(todo => {
+      if (todo.id === clickedTodo.id) {
+        return toggleTodo(clickedTodo)
+      } else {
+        return todo
+      }
+    }))
   }
 
   useEffect(() => {
-    // const keyDownHandler = (e: any) => console.log(`You pressed ${e.code}.`)
-    // document.addEventListener("keydown", keyDownHandler)
-
-    // return () => {
-    //   document.removeEventListener("keydown", keyDownHandler)
-    // }
   }, [])
 
   return (
@@ -108,13 +99,13 @@ export default function Todo() {
       <h1>Todo App</h1>
       <input type="text" name="" id="" placeholder="Enter a todo task" onKeyDown={event => handleNewTodo(event)} onChange={event => handleInput(event.target.value)}/>
       {todos.map((todo) => (
-        <div key={todo.id} className={styles.container}>
+        <div key={todo.id} className={styles.container} onClick={() => handleTaskStatus(todo)}>
           {/* <input type="checkbox" onChange={event => handleTaskStatus(event)}/> */}
           <h1 className={clsx({
             [styles.taskDone]: todo.done === true,
             [styles.taskNotDone]: todo.done === false,
           })}>{todo.text}</h1>
-          <h1>{todo.place && placeToString(todo.place)}</h1>
+          <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
 
         </div>
       ))}
