@@ -6,16 +6,8 @@ function Header({ title }: {title: string}) {
 }
 
 export default function Todo() {
-  const names = ['Raymart Evangelista', 'Ray Evan', 'Rayamrt Evan']
-
-  const [likes, setLikes] = useState(0)
   const [text, setText] = useState('')
   const [todos, setTodos] = useState<string[]>([])
-  // const [todos, setTodos] = useState([])
-
-  function handleClick() {
-    setLikes(likes + 1)
-  }
 
   function handleInput(event: string) {
     setText(event)
@@ -24,6 +16,7 @@ export default function Todo() {
   function handleInputDown(event: any) {
     if (event.code === 'Enter') {
       setTodos(todos.concat(text))
+      event.target.value = ''
     }
   }
 
@@ -40,13 +33,6 @@ export default function Todo() {
     <>
       <h1>Return to <Link href="/">Home</Link></h1>
       <Header title='Develop. Preview. Ship.'></Header>
-      <ul>
-        {names.map((name) => (
-          <li key={name}>{name}</li>
-        ))}
-      </ul>
-
-      <button onClick={handleClick}>Like ({likes})</button>
       <h1>Todo App</h1>
       <input type="text" name="" id="" onKeyDown={event => handleInputDown(event)} onChange={event => handleInput(event.target.value)}/>
       <ul>
