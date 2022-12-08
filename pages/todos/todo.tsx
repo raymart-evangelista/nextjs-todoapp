@@ -35,6 +35,7 @@ export default function Todo() {
   ])
   const inputEl = useRef()
   const buttonEl = useRef()
+  const [buttonHidden, setButtonHidden] = useState(false)
 
   function placeToString(place: Place): string {
     if (place === 'home') {
@@ -73,7 +74,8 @@ export default function Todo() {
       }
 
       setTodos(todos.concat(newTodo))
-      buttonEl.current.hidden = false
+      // buttonEl.current.hidden = false
+      setButtonHidden(false)
 
       event.target.value = ''
     }
@@ -87,19 +89,22 @@ export default function Todo() {
         return todo
       }
     }))
-
     // if all the todos have 'done: true', 'mark all as complete' button should be disabled
     // if any of the todos have 'done: false', 'mark all as complete' button should be enabled
+
 
   }
 
   function handleCompleteAll(e: any) {
     inputEl.current.focus()
-    e.currentTarget.hidden = true
+    // buttonEl.current.hidden = true
+    setButtonHidden(true)
+    // e.currentTarget.hidden = true
     setTodos(completeAll(todos))
   } 
   useEffect(() => {
-  }, [])
+    buttonEl.current.hidden = buttonHidden
+  }, [buttonHidden])
 
   return (
     <Layout>
@@ -120,7 +125,7 @@ export default function Todo() {
           <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
         </div>
       ))}
-      <button ref={buttonEl} id="mark-all-button" onClick={(e) => handleCompleteAll(e)}><h1>Mark all as complete</h1></button>
+      <button ref={buttonEl} id="mark-all-button" onClick={handleCompleteAll}><h1>Mark all as complete</h1></button>
     </Layout>
   )
 }
