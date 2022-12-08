@@ -3,12 +3,7 @@ import { useState, useEffect } from "react"
 import Head from "next/head"
 import Layout from "../components/layout"
 import styles from "./todo.module.css"
-
-
-
-
-
-
+import clsx from 'clsx'
 
 // const place = 'home'
 // console.log(placeToString(place))
@@ -44,9 +39,9 @@ export default function Todo() {
   const [todos, setTodos] = useState<Todo[]>([
     { id: 1, text: 'Do laundry', done: false, place: 'home' },
     { id: 2, text: 'Email boss', done: false, place: 'work' },
-    { id: 3, text: 'Go to gym', done: false, place: { custom: 'Gym' }},
+    { id: 3, text: 'Go to gym', done: true, place: { custom: 'Gym' }},
     { id: 4, text: 'Buy milk', done: false, place: { custom: 'Supermarket'}},
-    { id: 5, text: 'Walk outside', done: false },
+    { id: 5, text: 'Walk outside', done: true },
   ])
 
   function placeToString(place: Place): string {
@@ -115,7 +110,10 @@ export default function Todo() {
       {todos.map((todo) => (
         <div key={todo.id} className={styles.container}>
           {/* <input type="checkbox" onChange={event => handleTaskStatus(event)}/> */}
-          <h1 className={styles.taskName}>{todo.text}</h1>
+          <h1 className={clsx({
+            [styles.taskDone]: todo.done === true,
+            [styles.taskNotDone]: todo.done === false,
+          })}>{todo.text}</h1>
           <h1>{todo.place && placeToString(todo.place)}</h1>
 
         </div>

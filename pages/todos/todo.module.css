@@ -4,6 +4,11 @@
   gap: .5rem;
 }
 
-.taskName {
+.taskNotDone {
   font-weight: 100;
+}
+
+.taskDone {
+  font-weight: 100;
+  text-decoration: line-through;
 }
