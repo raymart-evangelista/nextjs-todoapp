@@ -2,6 +2,14 @@ import Link from "next/link"
 import { useState, useEffect } from "react"
 import Head from "next/head"
 import Layout from "../components/layout"
+import styles from "./todo.module.css"
+
+type Todo = {
+  id: number
+  text: string
+  done: boolean
+}
+
 
 function Header({ title }: {title: string}) {
   return <h1>{title ? title : 'Default title'}</h1>
@@ -15,10 +23,17 @@ export default function Todo() {
     setText(event)
   }
 
-  function handleInputDown(event: any) {
+  function handleNewTodo(event: any) {
     if (event.code === 'Enter') {
       setTodos(todos.concat(text))
       event.target.value = ''
+    }
+  }
+
+  function handleTaskStatus(event: any) {
+    if (event.target.checked) {
+      // strikethrough text
+      console.log('im checked')
     }
   }
 
@@ -39,12 +54,14 @@ export default function Todo() {
       <h1>Return to <Link href="/">Home</Link></h1>
       <Header title='Develop. Preview. Ship.'></Header>
       <h1>Todo App</h1>
-      <input type="text" name="" id="" onKeyDown={event => handleInputDown(event)} onChange={event => handleInput(event.target.value)}/>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo}>{todo}</li>
-        ))}
-      </ul>
+      <input type="text" name="" id="" placeholder="Enter a todo task" onKeyDown={event => handleNewTodo(event)} onChange={event => handleInput(event.target.value)}/>
+      {todos.map((todo) => (
+        <div className={styles.container}>
+          <input type="checkbox" onChange={event => handleTaskStatus(event)}/>
+          <h1 className={styles.taskName} key={todo}>{todo}</h1>
+
+        </div>
+      ))}
     </Layout>
   )
 }

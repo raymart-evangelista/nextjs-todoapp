@@ -17,7 +17,7 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         <h1 className={styles.title}>
-          Go to the <Link href="/todo">Todo App</Link>
+          Go to the <Link href="/todos/todo">Todo App</Link>
         </h1>
 
         <p className={styles.description}>

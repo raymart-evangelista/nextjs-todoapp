@@ -1,0 +1,9 @@
+.container {
+  border: 2px red solid;
+  display: flex;
+  gap: .5rem;
+}
+
+.taskName {
+  font-weight: 100;
+}
