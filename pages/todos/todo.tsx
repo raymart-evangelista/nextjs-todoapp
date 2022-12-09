@@ -33,8 +33,8 @@ export default function Todo() {
     { id: 4, text: 'Buy milk', done: false, place: { custom: 'Supermarket'}},
     { id: 5, text: 'Walk outside', done: true },
   ])
-  const inputEl = useRef()
-  const buttonEl = useRef()
+  const inputEl = useRef<HTMLDivElement>(null)
+  const buttonEl = useRef<HTMLDivElement>(null)
   const [buttonHidden, setButtonHidden] = useState(false)
 
   function placeToString(place: Place): string {
@@ -74,9 +74,6 @@ export default function Todo() {
       }
 
       setTodos(todos.concat(newTodo))
-      // buttonEl.current.hidden = false
-      setButtonHidden(false)
-
       event.target.value = ''
     }
   }
@@ -89,15 +86,13 @@ export default function Todo() {
         return todo
       }
     }))
-
-
   }
 
   function handleCompleteAll(e: any) {
-    inputEl.current.focus()
-    // buttonEl.current.hidden = true
+    if (inputEl.current) {
+      inputEl.current.focus()
+    }
     setButtonHidden(true)
-    // e.currentTarget.hidden = true
     setTodos(completeAll(todos))
   } 
   useEffect(() => {
@@ -106,13 +101,17 @@ export default function Todo() {
     if (todos.some(todo => todo.done === false)) {
       console.log('some todos are not finished')
       setButtonHidden(false)
-      buttonEl.current.hidden = buttonHidden
+      if (buttonEl.current) {
+        buttonEl.current.hidden = buttonHidden
+      }
     }
     // if all the todos have 'done: true', 'mark all as complete' button should be disabled
     if (todos.filter(todo => todo.done === true).length === todos.length) {
       console.log('all todos are done')
       setButtonHidden(true)
-      buttonEl.current.hidden = buttonHidden
+      if (buttonEl.current) {
+        buttonEl.current.hidden = buttonHidden
+      }
     }
 
 
