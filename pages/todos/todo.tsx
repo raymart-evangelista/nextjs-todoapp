@@ -5,6 +5,7 @@ import Layout from "../components/layout"
 import Options from "../components/options"
 import styles from "./todo.module.css"
 import clsx from 'clsx'
+import { Transition } from '@headlessui/react'
 
 function Header({ title }: {title: string}) {
   return <h1>{title ? title : 'Default title'}</h1>
@@ -39,6 +40,7 @@ export default function Todo() {
   // set up useRef
   const inputEl = useRef<HTMLInputElement>(null)
   const [buttonHidden, setButtonHidden] = useState(false)
+  const [isShowing, setIsShowing] = useState(false)
 
   function placeToString(place: Place): string {
     if (place === 'home') {
@@ -80,6 +82,7 @@ export default function Todo() {
 
       setTodos(todos.concat(newTodo))
       event.target.value = ''
+      setText('')
     }
   }
 
@@ -123,8 +126,21 @@ export default function Todo() {
       <Header title='Develop. Preview. Ship.'></Header>
       <h1>Todo App</h1>
       <input ref={inputEl} type="text" placeholder="Enter a todo task" onKeyDown={event => handleNewTodo(event)} onChange={event => handleInput(event.target.value)}/>
+      <button onClick={() => setIsShowing((isShowing) => !isShowing)}>
+        Toggle
+      </button>
+      <button onClick={handleCompleteAll} hidden={buttonHidden}><h1>Mark all as complete</h1></button>
+      <Transition
+        show={isShowing}
+        enter="transition ease-in-out duration-300 transform"
+        enterFrom="-translate-x-full"
+        enterTo="translate-x-0"
+        leave="transition ease-in-out duration-300 transform"
+        leaveFrom="translate-x-0"
+        leaveTo="translate-x-full"
+      >
       {todos.map((todo) => (
-        <div key={todo.id} className={styles.container} onClick={() => handleTaskStatus(todo)}>
+        <div key={todo.id} className="text-3xl flex justify-between" onClick={() => handleTaskStatus(todo)}>
           <h1 className={clsx({
             [styles.taskDone]: todo.done === true,
             [styles.taskNotDone]: todo.done === false,
@@ -132,7 +148,8 @@ export default function Todo() {
           <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
         </div>
       ))}
-      <button onClick={handleCompleteAll} hidden={buttonHidden}><h1>Mark all as complete</h1></button>
+      </Transition>
+
     </Layout>
   )
 }
