@@ -33,8 +33,8 @@ export default function Todo() {
     { id: 4, text: 'Buy milk', done: false, place: { custom: 'Supermarket'}},
     { id: 5, text: 'Walk outside', done: true },
   ])
-  const inputEl = useRef<HTMLDivElement>(null)
-  const buttonEl = useRef<HTMLDivElement>(null)
+  const inputEl = useRef<HTMLInputElement>(null)
+  const buttonEl = useRef<HTMLButtonElement>(null)
   const [buttonHidden, setButtonHidden] = useState(false)
 
   function placeToString(place: Place): string {
