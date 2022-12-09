@@ -37,7 +37,6 @@ export default function Todo() {
 
   // set up useRef
   const inputEl = useRef<HTMLInputElement>(null)
-  const buttonEl = useRef<HTMLButtonElement>(null)
   const [buttonHidden, setButtonHidden] = useState(false)
 
   function placeToString(place: Place): string {
@@ -105,17 +104,11 @@ export default function Todo() {
     if (todos.some(todo => todo.done === false)) {
       console.log('some todos are not finished')
       setButtonHidden(false)
-      if (buttonEl.current) {
-        buttonEl.current.hidden = buttonHidden
-      }
     }
     // if all the todos have 'done: true', 'mark all as complete' button should be disabled
     if (todos.filter(todo => todo.done === true).length === todos.length) {
       console.log('all todos are done')
       setButtonHidden(true)
-      if (buttonEl.current) {
-        buttonEl.current.hidden = buttonHidden
-      }
     }
   }, [todos, buttonHidden])
 
@@ -137,7 +130,7 @@ export default function Todo() {
           <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
         </div>
       ))}
-      <button ref={buttonEl} onClick={handleCompleteAll}><h1>Mark all as complete</h1></button>
+      <button onClick={handleCompleteAll} hidden={buttonHidden}><h1>Mark all as complete</h1></button>
     </Layout>
   )
 }
