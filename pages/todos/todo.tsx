@@ -25,6 +25,7 @@ export default function Todo() {
     readonly done: true
   }
 
+  // set up useState
   const [text, setText] = useState('')
   const [todos, setTodos] = useState<Todo[]>([
     { id: 1, text: 'Do laundry', done: false, place: 'home' },
@@ -33,6 +34,8 @@ export default function Todo() {
     { id: 4, text: 'Buy milk', done: false, place: { custom: 'Supermarket'}},
     { id: 5, text: 'Walk outside', done: true },
   ])
+
+  // set up useRef
   const inputEl = useRef<HTMLInputElement>(null)
   const buttonEl = useRef<HTMLButtonElement>(null)
   const [buttonHidden, setButtonHidden] = useState(false)
@@ -47,6 +50,7 @@ export default function Todo() {
     }
   }
 
+  // returns new Todo object
   function toggleTodo(todo: Todo): Todo {
     return {
       ...todo,
@@ -54,6 +58,7 @@ export default function Todo() {
     }
   }
   
+  // returns new array of Todo objects
   function completeAll(todos: readonly Todo[]): CompletedTodo[]{
     return todos.map(todo => ({
       ...todo,
@@ -88,7 +93,7 @@ export default function Todo() {
     }))
   }
 
-  function handleCompleteAll(e: any) {
+  function handleCompleteAll() {
     if (inputEl.current) {
       inputEl.current.focus()
     }
@@ -96,7 +101,6 @@ export default function Todo() {
     setTodos(completeAll(todos))
   } 
   useEffect(() => {
-    console.log('inside use effect')
     // if any of the todos have 'done: false', 'mark all as complete' button should be enabled
     if (todos.some(todo => todo.done === false)) {
       console.log('some todos are not finished')
@@ -113,8 +117,6 @@ export default function Todo() {
         buttonEl.current.hidden = buttonHidden
       }
     }
-
-
   }, [todos, buttonHidden])
 
   return (
@@ -128,7 +130,6 @@ export default function Todo() {
       <input ref={inputEl} type="text" placeholder="Enter a todo task" onKeyDown={event => handleNewTodo(event)} onChange={event => handleInput(event.target.value)}/>
       {todos.map((todo) => (
         <div key={todo.id} className={styles.container} onClick={() => handleTaskStatus(todo)}>
-          {/* <input type="checkbox" onChange={event => handleTaskStatus(event)}/> */}
           <h1 className={clsx({
             [styles.taskDone]: todo.done === true,
             [styles.taskNotDone]: todo.done === false,
@@ -136,7 +137,7 @@ export default function Todo() {
           <h1 className={styles.place}>{todo.place && placeToString(todo.place)}</h1>
         </div>
       ))}
-      <button ref={buttonEl} id="mark-all-button" onClick={handleCompleteAll}><h1>Mark all as complete</h1></button>
+      <button ref={buttonEl} onClick={handleCompleteAll}><h1>Mark all as complete</h1></button>
     </Layout>
   )
 }

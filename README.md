@@ -1,4 +1,4 @@
-### Resources
+### Resources]
 - [TypeScript Tutorial for JS Programmers](https://ts.chibicode.com/todo/)
 - [Typescript, how to pass "Object is possibly null" error](https://stackoverflow.com/questions/55677600/typescript-how-to-pass-object-is-possibly-null-error)
 - [How to determine if JS array contains an object with an attribute that equals a given value](https://stackoverflow.com/questions/8217419/how-to-determine-if-javascript-array-contains-an-object-with-an-attribute-that-e/8217584#8217584)
@@ -6,6 +6,7 @@
 - [Official useRef hooks reference](https://reactjs.org/docs/hooks-reference.html#useref)
 - [Learning that useRef is similar to document.querySelector](https://bobbyhadz.com/blog/react-document-queryselector)
 - [Learning about Array/Object spread operator, Rest operator](https://oprearocks.medium.com/what-do-the-three-dots-mean-in-javascript-bc5749439c9a)
+- [Using CLSX in React](https://stackoverflow.com/questions/57557271/how-to-use-clsx-in-react)
 
 ## Getting Started
 
