@@ -2,6 +2,7 @@ import Link from "next/link"
 import { useState, useEffect, useRef } from "react"
 import Head from "next/head"
 import Layout from "../components/layout"
+import Options from "../components/options"
 import styles from "./todo.module.css"
 import clsx from 'clsx'
 
@@ -114,6 +115,7 @@ export default function Todo() {
 
   return (
     <Layout>
+      <Options></Options>
       <Head>
         <title>Todo App</title>
       </Head>
